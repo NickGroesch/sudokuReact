@@ -11,32 +11,47 @@ const determineNonent = (row, col) => {
     }
 }
 class Square extends React.Component {
-    state = {
-        row: this.props.row,
-        col: this.props.col,
-        nonent: determineNonent(this.props.row, this.props.col),
-        value: this.props.value ? this.props.value : [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        solved: this.props.value ? true : false,
+    constructor(props) {
+        super(props)
+        this.state = {
+            row: this.props.row,
+            col: this.props.col,
+            nonent: determineNonent(this.props.row, this.props.col),
+            value: this.props.value ? this.props.value : [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            solved: this.props.value ? true : false,
 
+        }
     }
+
+
     getDisplay = () => {
         this.setState((state) => {
-            return { display: this.state.solved ? this.state.value : "x" }
+            return { display: state.solved ? state.value : "x" }
         })
     }
+
+
     componentDidMount() {
         this.getDisplay()
     }
-    // let value = 1
-    render() {
-        // const self = this;
 
-        console.log(this.state)
-        // `row=${this.state.row} 
-        // \ncol=${this.state.col} 
-        // \nnonent=${this.state.nonent}`
+    clicked = () => {
+        if (this.state.display === "x") {//only allow to change if display is not entered yet
+            onkeypress = (ev) => {
+                let mynumber = ev.key
+                if ("123456789".includes(mynumber)) {//sanitize input
+                    console.log(`square ${this.state.row} ${this.state.col}is now ${mynumber}`)
+                    this.setState((state) => {
+                        return { display: mynumber }
+                    })
+                }
+            }
+        }
+    }
+
+    render() {
         return (
-            <button className="square">{this.state.display}</button>
+            <button className="square" onClick={() => this.clicked()}>{this.state.display}</button>
         );
     }
 }
@@ -57,7 +72,6 @@ class Board extends React.Component {
             }
             board.push(<div className="board-row" key={`row${i}`}>{children}</div>)
         }
-        console.log(board)
         return board
     }
 
@@ -68,10 +82,6 @@ class Board extends React.Component {
             <div>
                 <div className="status">{status}</div>
                 {this.createEmptyBoard()}
-                {/* <div className="board-row">
-                    {this.renderSquare(1, 1)}
-
-                </div> */}
             </div>
         );
     }
