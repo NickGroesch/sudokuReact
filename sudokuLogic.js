@@ -10,6 +10,8 @@ function Square(row, col, value) {
         this.options = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
     this.nonent = determineNonent(row, col)
+    this.possCount = this.options.length
+
 }
 
 const determineNonent = (row, col) => {
@@ -47,7 +49,7 @@ const drawBoard = (array) => {
 const testBoard = (numSolved) => {
     let array = []
     const multiplier = numSolved / 81.0
-    console.log(multiplier)
+    // console.log(multiplier)
     for (let i = 0; i < 81; i++) {
         if (Math.random() < multiplier) {
             array.push(Math.ceil(Math.random() * 9))
@@ -56,7 +58,18 @@ const testBoard = (numSolved) => {
     return array
 }
 // console.log(drawEmptyBoard())
-console.log(drawBoard(testBoard(20)))
-module.export = drawEmptyBoard
+// console.log(drawBoard(testBoard(40)))
+// module.export = drawEmptyBoard
 
 // Let's start to develop some actual game logic. We can have getters and setters for possibilities in each row, column, and nonent
+const solve = (flatBoard) => {
+    unsolved = true
+    // while (unsolved) {
+
+    // }
+    flatBoard.sort((a, b) => a.possCount - b.possCount)
+    console.log(flatBoard)
+    let solvedIndex = flatBoard.findIndex((element) => element.possCount > 1)
+    console.log(solvedIndex)//now splice out the solved to start the logicing!
+}
+solve((drawBoard(testBoard(40))))
